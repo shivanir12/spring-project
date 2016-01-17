@@ -2,6 +2,7 @@ package hello;
 
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,24 +14,23 @@ import java.util.List;
 public class HelloController {
     private Student st1;
 
-    @RequestMapping(value = "/hello/{userName}/{userId}")
-    public void welcomeMessage(@PathVariable("userName") String userName, @PathVariable("userId") int userId) {
+    @RequestMapping(value = "/hello/{userName}/{userId}", method = RequestMethod.GET)
+    public String welcomeMessage(@PathVariable("userName") String userName, @PathVariable("userId") int userId) {
         st1 = new Student(userName);
-        System.out.println("hello " + st1.getName());
-        System.out.println("User Id: " + userId);
+        return "hello " + st1.getName() +"\n"+"User Id: " + userId;
     }
 
-    @RequestMapping(value = "/subjects/{sub1}/{sub2}/{sub3}")
-    public void printSubjects(@PathVariable("sub1") String subject1, @PathVariable("sub2") String subject2,
+    @RequestMapping(value = "/subjects/{sub1}/{sub2}/{sub3}", method = RequestMethod.GET)
+    public String printSubjects(@PathVariable("sub1") String subject1, @PathVariable("sub2") String subject2,
                               @PathVariable("sub3") String subject3) {
         if (subject3.length() > 0)
-            System.out.println("u study " + subject1 + " " + subject2 + " " + subject3);
+            return "u study " + subject1 + " " + subject2 + " " + subject3;
         else
-            System.out.println("u study " + subject1 + " " + subject2);
+            return "u study " + subject1 + " " + subject2;
     }
 
-    @RequestMapping(value = {"/method1", "/method1/method2"})
-    public void printMessage() {
-        System.out.println("This is to indicate that multiple url's are mapped to same method");
+    @RequestMapping(value = {"/method1", "/method1/method2"}, method = RequestMethod.GET)
+    public String printMessage() {
+        return "This is to indicate that multiple url's are mapped to same method";
     }
 }
